@@ -1,0 +1,27 @@
+import type { Metadata } from 'next';
+import './globals.css';
+import Header from '@/components/dashboard/Header';
+import MandiTicker from '@/components/dashboard/MandiTicker';
+
+export const metadata: Metadata = {
+  title: 'Uzhavan Bazaar | Farmer Dashboard',
+  description: 'Smart India Hackathon project tailored for local farmers to grade produce, list inventory, and track earnings.',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className="antialiased min-h-screen bg-gray-50 flex flex-col">
+        <Header />
+        <main className="flex-grow pb-14">{/* pb-14 to account for sticky ticker */}
+          {children}
+        </main>
+        <MandiTicker />
+      </body>
+    </html>
+  );
+}
