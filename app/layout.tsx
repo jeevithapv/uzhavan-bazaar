@@ -17,9 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen bg-gray-50 flex flex-col">
+      <body className="antialiased min-h-screen bg-gray-50 flex flex-col relative">
+        {/* Global Watermark Background */}
+        <div className="fixed inset-0 pointer-events-none z-0 opacity-5 bg-[url('/logo.png')] bg-no-repeat bg-center bg-fixed bg-[length:400px_400px] md:bg-[length:600px_600px]" />
+        
         <AppProvider>
-          <main className="flex-grow">
+          <main className="flex-grow relative z-10">
             {children}
           </main>
         </AppProvider>
