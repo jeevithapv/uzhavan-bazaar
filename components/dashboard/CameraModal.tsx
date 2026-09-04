@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
-import { X, Camera, RefreshCw, CheckCircle2, Loader2, QrCode } from 'lucide-react';
+import { X, Camera, RefreshCw, CheckCircle2, Loader2, QrCode, Scan } from 'lucide-react';
 
 interface CameraModalProps {
   onClose: () => void;
