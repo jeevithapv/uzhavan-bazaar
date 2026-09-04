@@ -38,7 +38,7 @@ export default function BuyerRegistration() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-12">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-12 pb-32">
         <div className="max-w-xl w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 mb-4 bg-white rounded-full flex items-center justify-center border border-blue-200 overflow-hidden shadow-sm">
@@ -61,10 +61,7 @@ export default function BuyerRegistration() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{t('form.mobile')}</label>
-              <div className="flex gap-2">
-                <input required type="tel" value={formData.mobile} onChange={(e) => setFormData({...formData, mobile: e.target.value})} className="flex-1 px-4 py-2 border rounded-lg focus:ring-blue-500 outline-none" />
-                <button type="button" className="px-4 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 font-medium whitespace-nowrap">{t('form.send_otp')}</button>
-              </div>
+              <input required type="tel" value={formData.mobile} onChange={(e) => setFormData({...formData, mobile: e.target.value})} className="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 outline-none" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
