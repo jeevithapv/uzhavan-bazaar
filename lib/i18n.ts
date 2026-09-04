@@ -6,7 +6,7 @@ export const translations: Record<string, Record<string, string>> = {
   'common.close': { en: 'Close', ta: 'மூடு', te: 'మూసివేయు', ml: 'അടയ്ക്കുക', kn: 'ಮುಚ್ಚಿ', hi: 'बंद करें' },
   
   // Header & Drawer
-  'header.app_name': { en: 'Agrimelan', ta: 'அக்ரிமேலன்', te: 'అగ్రిమెలన్', ml: 'അഗ്രിമേലൻ', kn: 'ಅಗ್ರಿಮೆಲನ್', hi: 'एग्रीमेलन' },
+  'header.app_name': { en: 'Uzhavan Bazar', ta: 'உழவன் பஜார்', te: 'ఉழవన్ బజార్', ml: 'ഉഴവൻ ബസാർ', kn: 'ಉಳವನ್ ಬಜಾರ್', hi: 'उழवन बाज़ार' },
   'drawer.profile': { en: 'My Profile', ta: 'என் சுயவிவரம்', te: 'నా ప్రొఫైల్', ml: 'എന്റെ പ്രൊഫൈൽ', kn: 'ನನ್ನ ಪ್ರೊಫೈಲ್', hi: 'मेरी प्रोफाइल' },
   'drawer.edit_profile': { en: 'Edit Profile', ta: 'சுயவிவரத்தை திருத்து', te: 'ప్రొఫైల్ సవరించు', ml: 'പ്രൊഫൈൽ എഡിറ്റ് ചെയ്യുക', kn: 'ಪ್ರೊಫೈಲ್ ಸಂಪಾದಿಸಿ', hi: 'प्रोफाइल संपादित करें' },
   'drawer.change_password': { en: 'Change Password', ta: 'கடவுச்சொல்லை மாற்று', te: 'పాస్‌వర్డ్ మార్చు', ml: 'പാസ്‌വേഡ് മാറ്റുക', kn: 'ಗುಪ್ತಪದ ಬದಲಾಯಿಸಿ', hi: 'पासवर्ड बदलें' },

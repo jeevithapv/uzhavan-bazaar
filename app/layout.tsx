@@ -3,8 +3,11 @@ import './globals.css';
 import { AppProvider } from '@/components/providers/AppProvider';
 
 export const metadata: Metadata = {
-  title: 'Uzhavan Bazaar | Farmer Dashboard',
-  description: 'Smart India Hackathon project tailored for local farmers to grade produce, list inventory, and track earnings.',
+  title: 'Uzhavan Bazar | Farmer Dashboard',
+  description: 'Smart India Hackathon project tailored for local farmers. From Our Fields to Your Home.',
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({

@@ -29,7 +29,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
         <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
           <X className="w-6 h-6" />
         </button>
-        <h3 className="text-xl font-bold mb-4">Login to Agrimelan</h3>
+        <h3 className="text-xl font-bold mb-4">Login to Uzhavan Bazar</h3>
         
         <form onSubmit={handleLogin} className="space-y-4">
           <div>

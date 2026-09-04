@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShoppingBag, Eye, EyeOff, UploadCloud } from 'lucide-react';
+import Image from 'next/image';
+import { Eye, EyeOff, UploadCloud } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProvider';
 import LoginModal from '@/components/auth/LoginModal';
 
@@ -40,8 +41,8 @@ export default function BuyerRegistration() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-12">
         <div className="max-w-xl w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-              <ShoppingBag className="w-8 h-8 text-blue-600" />
+            <div className="w-16 h-16 mb-4 bg-white rounded-full flex items-center justify-center border border-blue-200 overflow-hidden shadow-sm">
+              <Image src="/logo.png" alt="Uzhavan Bazar Logo" width={64} height={64} className="object-contain" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Buyer Registration</h2>
           </div>

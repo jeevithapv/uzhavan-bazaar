@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Globe, User, Bell, Wallet } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProvider';
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
@@ -31,9 +32,7 @@ export default function Header() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">A</span>
-                </div>
+                <Image src="/logo.png" alt="Uzhavan Bazar Logo" width={40} height={40} className="w-10 h-10 object-contain rounded-full border border-green-200 shadow-sm" />
                 <h1 className="text-2xl font-bold text-green-800">{t('header.app_name')}</h1>
               </div>
             </div>

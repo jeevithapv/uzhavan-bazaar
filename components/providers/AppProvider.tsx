@@ -30,10 +30,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setIsMounted(true);
-    const storedLang = localStorage.getItem('agrimelan_lang');
+    const storedLang = localStorage.getItem('uzhavan_lang');
     if (storedLang) setLanguageState(storedLang);
 
-    const storedUser = localStorage.getItem('agrimelan_user');
+    const storedUser = localStorage.getItem('uzhavan_user');
     if (storedUser) {
       try {
         setUserState(JSON.parse(storedUser));
@@ -45,15 +45,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (lang: string) => {
     setLanguageState(lang);
-    localStorage.setItem('agrimelan_lang', lang);
+    localStorage.setItem('uzhavan_lang', lang);
   };
 
   const setUser = (newUser: UserProfile | null) => {
     setUserState(newUser);
     if (newUser) {
-      localStorage.setItem('agrimelan_user', JSON.stringify(newUser));
+      localStorage.setItem('uzhavan_user', JSON.stringify(newUser));
     } else {
-      localStorage.removeItem('agrimelan_user');
+      localStorage.removeItem('uzhavan_user');
     }
   };
 
