@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, MessageSquare, X, Send } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProvider';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface ChatMessage {
   id: string;
@@ -14,10 +14,13 @@ interface ChatMessage {
 export default function AIVoiceAssistant() {
   const { language, t } = useAppContext();
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [pendingSpeech, setPendingSpeech] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom of chat
@@ -25,20 +28,60 @@ export default function AIVoiceAssistant() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Context-aware greeting on open
+  // Global interaction listener for autoplay policies
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      let greeting = "Hello! I am your Uzhavan Assistant. How can I help you today?";
-      if (pathname.includes('/register')) {
-        greeting = "Welcome to Registration. You can say your Name, Phone Number, and City, and I will fill them out for you.";
-      } else if (pathname === '/dashboard') {
-        greeting = "Welcome to your Dashboard! Ask me about Mandi rates, crop tips, or navigating the app.";
+    const handleInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        if (pendingSpeech) {
+          speakText(pendingSpeech);
+          setPendingSpeech(null);
+        }
       }
-      
-      setMessages([{ id: Date.now().toString(), sender: 'assistant', text: greeting }]);
-      speakText(greeting);
+    };
+    
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('touchstart', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
+    return () => {
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+  }, [hasInteracted, pendingSpeech]);
+
+  // Context-aware automatic greeting on route change
+  useEffect(() => {
+    // Avoid running on root splash screen to prevent premature audio
+    if (pathname === '/') return;
+
+    let greeting = "";
+    if (pathname === '/language') {
+      greeting = language === 'ta' 
+        ? "உழவன் பஜாருக்கு வரவேற்கிறோம்! உங்கள் மொழியைத் தேர்ந்தெடுக்கவும். நீங்கள் ஏற்கனவே பதிவு செய்திருந்தால் உள்நுழையலாம்."
+        : "Welcome to Uzhavan Bazar! Please choose your preferred language. If you are already registered, you can log in, or click register to create a new farmer or buyer account.";
+    } else if (pathname === '/select-role') {
+      greeting = language === 'ta'
+        ? "நீங்கள் உழவரா அல்லது வாங்குபவரா?"
+        : "Are you a Farmer or a Buyer?";
+    } else if (pathname === '/register/farmer') {
+      greeting = language === 'ta'
+        ? "பதிவுக்கு வரவேற்கிறோம்! சரிபார்க்க உங்கள் பெயர், மொபைல், இடம் மற்றும் ஆதார் எண்ணை நிரப்பவும்."
+        : "Welcome to registration! Please fill in your name, mobile number, land location, and Aadhaar number to get verified.";
+    } else if (pathname === '/dashboard') {
+      greeting = "Welcome to your Dashboard! Ask me about Mandi rates, crop tips, or navigating the app.";
     }
-  }, [isOpen, pathname]);
+
+    if (greeting) {
+      setIsOpen(true);
+      setMessages([{ id: Date.now().toString(), sender: 'assistant', text: greeting }]);
+      if (hasInteracted) {
+        speakText(greeting);
+      } else {
+        setPendingSpeech(greeting);
+      }
+    }
+  }, [pathname, language]);
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -104,22 +147,37 @@ export default function AIVoiceAssistant() {
   const processAIResponse = (text: string) => {
     const lowerText = text.toLowerCase();
     let response = "I'm sorry, I didn't understand that. Could you please repeat?";
+    let shouldRoute = '';
 
-    if (lowerText.includes('tomato') || lowerText.includes('தக்காளி') || lowerText.includes('टमाटर')) {
-      response = "Today's Mandi rate for Tomato is ₹30/kg. Prices are expected to rise by 10% next week. Would you like to create a listing?";
+    if (lowerText.includes('register') || lowerText.includes('பதிவு') || lowerText.includes('assist me to register') || lowerText.includes('navigate to register')) {
+      response = "Taking you to the registration page. Let's get your farm details set up!";
+      shouldRoute = '/select-role';
+    } else if (lowerText.includes('tomato') || lowerText.includes('தக்காளி') || lowerText.includes('टमाटर') || lowerText.includes('rate') || lowerText.includes('price')) {
+      response = "Today's average market rate for Grade-A Tomato is ₹38 per kg in Koyambedu Mandi, with an upward trend forecast.";
     } else if (lowerText.includes('pest') || lowerText.includes('பூச்சி') || lowerText.includes('disease')) {
       response = "For pest control, we recommend using Neem oil spray or consulting a local agri-expert. Let me open the AI camera for you to scan your crop.";
+    } else if (lowerText.includes('what can i do here') || lowerText.includes('navigate') || lowerText.includes('help')) {
+      response = "Uzhavan Bazar allows you to check live mandi rates, scan your crop quality using AI, book shared freight transport, and sell directly to buyers with zero commission.";
     } else if (lowerText.includes('farmer') || lowerText.includes('உழவர்')) {
       response = "Great! Let's proceed as a Farmer.";
+      shouldRoute = '/register/farmer';
     } else if (lowerText.includes('buyer') || lowerText.includes('வாங்குபவர்')) {
       response = "Great! Let's proceed as a Buyer.";
+      shouldRoute = '/register/buyer';
     } else {
       // Mock generic response
-      response = `You said: "${text}". I have recorded this.`;
+      response = `You said: "${text}". How else can I help?`;
     }
 
     setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'assistant', text: response }]);
-    speakText(response);
+    
+    if (hasInteracted) {
+      speakText(response);
+    }
+    
+    if (shouldRoute) {
+      setTimeout(() => router.push(shouldRoute), 2000);
+    }
   };
 
   const handleUserInput = (text: string, isAudio: boolean = false) => {
