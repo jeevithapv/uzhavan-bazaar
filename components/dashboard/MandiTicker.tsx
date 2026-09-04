@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { useAppContext } from '@/components/providers/AppProvider';
 
 const TICKER_DATA = [
   { name: 'Onion', price: 28, trend: 'down', predicted: 25, category: 'Vegetables' },
@@ -13,6 +14,7 @@ const TICKER_DATA = [
 ];
 
 export default function MandiTicker() {
+  const { t } = useAppContext();
   const [isMounted, setIsMounted] = useState(false);
   const [filter, setFilter] = useState('All');
 
@@ -27,14 +29,14 @@ export default function MandiTicker() {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-lg z-50 flex flex-col">
       <div className="bg-gray-800 px-4 py-1 flex items-center justify-center gap-2 overflow-x-auto">
-        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider mr-2 hidden sm:inline">Filter Rates:</span>
+        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider mr-2 hidden sm:inline">{t('ticker.filter')}</span>
         {['All', 'Vegetables', 'Fruits', 'Grains'].map(cat => (
           <button 
             key={cat} 
             onClick={() => setFilter(cat)}
             className={`text-xs px-3 py-1 rounded-full transition-colors ${filter === cat ? 'bg-green-600 text-white font-bold' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
           >
-            {cat}
+            {t(`ticker.${cat.toLowerCase()}`)}
           </button>
         ))}
       </div>

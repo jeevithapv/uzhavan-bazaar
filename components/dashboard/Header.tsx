@@ -6,7 +6,7 @@ import { useAppContext } from '@/components/providers/AppProvider';
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
 
 export default function Header() {
-  const { language, setLanguage } = useAppContext();
+  const { language, setLanguage, t } = useAppContext();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Header() {
                 <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xl">A</span>
                 </div>
-                <h1 className="text-2xl font-bold text-green-800">Agrimelan</h1>
+                <h1 className="text-2xl font-bold text-green-800">{t('header.app_name')}</h1>
               </div>
             </div>
             

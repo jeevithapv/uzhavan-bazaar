@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit2, QrCode, Star, Package, MapPin } from 'lucide-react';
 import AddListingModal from './AddListingModal';
+import { useAppContext } from '@/components/providers/AppProvider';
 
 interface Post {
   id: number;
@@ -15,6 +16,7 @@ interface Post {
 }
 
 export default function PostList() {
+  const { t } = useAppContext();
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -43,15 +45,15 @@ export default function PostList() {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h3 className="text-lg font-bold text-gray-800">Active Post Listings</h3>
-          <p className="text-sm text-gray-500">Manage your produce available for sale</p>
+          <h3 className="text-lg font-bold text-gray-800">{t('dashboard.active_listings')}</h3>
+          <p className="text-sm text-gray-500">{t('dashboard.manage_produce')}</p>
         </div>
         <button 
           onClick={() => setIsAddModalOpen(true)}
           className="bg-green-50 text-green-700 hover:bg-green-100 font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">New Listing</span>
+          <span className="hidden sm:inline">{t('dashboard.new_listing')}</span>
         </button>
       </div>
 

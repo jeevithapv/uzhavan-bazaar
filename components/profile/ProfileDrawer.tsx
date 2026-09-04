@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { X, UserCircle, Edit3, Settings, LogOut, MapPin, Phone, CreditCard, ListOrdered, ShoppingBag } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProvider';
 import EditProfileModal from './EditProfileModal';
+import ChangePasswordModal from './ChangePasswordModal';
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -11,8 +12,9 @@ interface ProfileDrawerProps {
 
 export default function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
   const router = useRouter();
-  const { user, logout } = useAppContext();
+  const { user, logout, t } = useAppContext();
   const [showEdit, setShowEdit] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -33,7 +35,7 @@ export default function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
       <div className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-green-50">
-          <h2 className="text-xl font-bold text-green-900">My Profile</h2>
+          <h2 className="text-xl font-bold text-green-900">{t('drawer.profile')}</h2>
           <button onClick={onClose} className="p-2 text-green-700 hover:bg-green-100 rounded-full">
             <X className="w-5 h-5" />
           </button>
@@ -53,11 +55,11 @@ export default function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4 p-6 border-b border-gray-100 bg-gray-50">
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-            <p className="text-xs text-gray-500 font-medium mb-1 uppercase">Wallet Balance</p>
+            <p className="text-xs text-gray-500 font-medium mb-1 uppercase">{t('drawer.wallet')}</p>
             <p className="text-xl font-bold text-gray-800">₹{user?.walletBalance?.toLocaleString() || 0}</p>
           </div>
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-            <p className="text-xs text-gray-500 font-medium mb-1 uppercase">Active Listings</p>
+            <p className="text-xs text-gray-500 font-medium mb-1 uppercase">{t('dashboard.orders')}</p>
             <p className="text-xl font-bold text-gray-800">12</p>
           </div>
         </div>
@@ -81,18 +83,22 @@ export default function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
         {/* Actions */}
         <div className="mt-auto p-4 space-y-2 border-t border-gray-100">
           <button onClick={() => setShowEdit(true)} className="w-full flex items-center p-3 text-gray-700 hover:bg-green-50 hover:text-green-700 rounded-lg transition-colors font-medium">
-            <Edit3 className="w-5 h-5 mr-3" /> Edit Profile
+            <Edit3 className="w-5 h-5 mr-3" /> {t('drawer.edit_profile')}
+          </button>
+          <button onClick={() => setShowChangePassword(true)} className="w-full flex items-center p-3 text-gray-700 hover:bg-green-50 hover:text-green-700 rounded-lg transition-colors font-medium">
+            <Settings className="w-5 h-5 mr-3" /> {t('drawer.change_password')}
           </button>
           <button className="w-full flex items-center p-3 text-gray-700 hover:bg-green-50 hover:text-green-700 rounded-lg transition-colors font-medium">
-            <ListOrdered className="w-5 h-5 mr-3" /> My Orders / Listings
+            <ListOrdered className="w-5 h-5 mr-3" /> {t('dashboard.orders')}
           </button>
           <button onClick={handleLogout} className="w-full flex items-center p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium mt-4">
-            <LogOut className="w-5 h-5 mr-3" /> Log Out
+            <LogOut className="w-5 h-5 mr-3" /> {t('drawer.logout')}
           </button>
         </div>
       </div>
 
       {showEdit && <EditProfileModal onClose={() => setShowEdit(false)} />}
+      {showChangePassword && <ChangePasswordModal onClose={() => setShowChangePassword(false)} />}
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { getTranslation } from '@/lib/i18n';
 
 export type UserProfile = {
   fullName: string;
@@ -18,6 +18,7 @@ interface AppContextType {
   user: UserProfile | null;
   setUser: (user: UserProfile | null) => void;
   logout: () => void;
+  t: (key: string) => string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -60,8 +61,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const t = (key: string) => getTranslation(key, language);
+
   return (
-    <AppContext.Provider value={{ language, setLanguage, user, setUser, logout }}>
+    <AppContext.Provider value={{ language, setLanguage, user, setUser, logout, t }}>
       {children}
     </AppContext.Provider>
   );

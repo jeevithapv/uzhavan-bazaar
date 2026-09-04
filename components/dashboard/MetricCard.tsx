@@ -8,11 +8,12 @@ interface MetricCardProps {
   trend?: 'up' | 'down' | 'flat';
   trendValue?: string;
   colorClass: string;
+  onClick?: () => void;
 }
 
-export default function MetricCard({ title, value, subtitle, icon, trend, trendValue, colorClass }: MetricCardProps) {
+export default function MetricCard({ title, value, subtitle, icon, trend, trendValue, colorClass, onClick }: MetricCardProps) {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow">
+    <div onClick={onClick} className={`bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow ${onClick ? 'cursor-pointer hover:border-green-200' : ''}`}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-gray-500">{title}</h3>
         <div className={`p-2 rounded-full ${colorClass}`}>
