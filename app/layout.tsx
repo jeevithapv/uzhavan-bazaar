@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AppProvider } from '@/components/providers/AppProvider';
 
 export const metadata: Metadata = {
   title: 'Uzhavan Bazaar | Farmer Dashboard',
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen bg-gray-50 flex flex-col">
-        <main className="flex-grow">
-          {children}
-        </main>
+        <AppProvider>
+          <main className="flex-grow">
+            {children}
+          </main>
+        </AppProvider>
       </body>
     </html>
   );

@@ -2,14 +2,25 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserCircle } from 'lucide-react';
+import { useAppContext } from '@/components/providers/AppProvider';
 
 export default function FarmerRegistration() {
   const router = useRouter();
+  const { setUser } = useAppContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ name: '', mobile: '', city: '', aadhaar: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setUser({
+      fullName: formData.name,
+      mobile: formData.mobile,
+      city: formData.city,
+      aadhaar: formData.aadhaar,
+      role: 'farmer',
+      walletBalance: 0
+    });
     // Simulate network request
     setTimeout(() => {
       router.push('/dashboard');
@@ -30,19 +41,19 @@ export default function FarmerRegistration() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="e.g. Ramesh Kumar" />
+            <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="e.g. Ramesh Kumar" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-            <input required type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="+91" />
+            <input required type="tel" value={formData.mobile} onChange={(e) => setFormData({...formData, mobile: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="+91" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">City/Town</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="e.g. Madurai" />
+            <input required type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="e.g. Madurai" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Aadhaar Number</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="XXXX XXXX XXXX" />
+            <input required type="text" value={formData.aadhaar} onChange={(e) => setFormData({...formData, aadhaar: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="XXXX XXXX XXXX" />
           </div>
           <button 
             type="submit" 

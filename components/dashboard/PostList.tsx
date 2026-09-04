@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit2, QrCode, Star, Package, MapPin } from 'lucide-react';
+import AddListingModal from './AddListingModal';
 
 interface Post {
   id: number;
@@ -16,6 +17,7 @@ interface Post {
 export default function PostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -44,7 +46,10 @@ export default function PostList() {
           <h3 className="text-lg font-bold text-gray-800">Active Post Listings</h3>
           <p className="text-sm text-gray-500">Manage your produce available for sale</p>
         </div>
-        <button className="bg-green-50 text-green-700 hover:bg-green-100 font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="bg-green-50 text-green-700 hover:bg-green-100 font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors"
+        >
           <Plus className="h-4 w-4" />
           <span className="hidden sm:inline">New Listing</span>
         </button>
@@ -107,6 +112,13 @@ export default function PostList() {
           ))
         )}
       </div>
+      
+      {isAddModalOpen && (
+        <AddListingModal 
+          onClose={() => setIsAddModalOpen(false)} 
+          onSuccess={fetchPosts} 
+        />
+      )}
     </div>
   );
 }

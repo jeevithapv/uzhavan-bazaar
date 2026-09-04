@@ -2,14 +2,26 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingBag } from 'lucide-react';
+import { useAppContext } from '@/components/providers/AppProvider';
 
 export default function BuyerRegistration() {
   const router = useRouter();
+  const { setUser } = useAppContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ name: '', mobile: '', email: '', city: '', aadhaar: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setUser({
+      fullName: formData.name,
+      mobile: formData.mobile,
+      email: formData.email,
+      city: formData.city,
+      aadhaar: formData.aadhaar,
+      role: 'buyer',
+      walletBalance: 100000 // mock wallet
+    });
     // Simulate network request, routes to dashboard for now as marketplace isn't built
     setTimeout(() => {
       router.push('/dashboard');
@@ -30,23 +42,23 @@ export default function BuyerRegistration() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="e.g. Fresh Mart Inc." />
+            <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="e.g. Fresh Mart Inc." />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-            <input required type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="+91" />
+            <input required type="tel" value={formData.mobile} onChange={(e) => setFormData({...formData, mobile: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="+91" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-            <input required type="email" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="buyer@example.com" />
+            <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="buyer@example.com" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">City/Town</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="e.g. Chennai" />
+            <input required type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="e.g. Chennai" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Aadhaar / GSTIN</label>
-            <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="XXXX XXXX XXXX" />
+            <input required type="text" value={formData.aadhaar} onChange={(e) => setFormData({...formData, aadhaar: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="XXXX XXXX XXXX" />
           </div>
           <button 
             type="submit" 
