@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Globe, User, Bell } from 'lucide-react';
+import { Globe, User, Bell, Wallet } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProvider';
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
+import EscrowWalletModal from '@/components/wallet/EscrowWalletModal';
 
 export default function Header() {
   const { language, setLanguage, t } = useAppContext();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isWalletOpen, setIsWalletOpen] = useState(false);
 
   const languages = [
     { code: 'en', label: 'English' },
@@ -88,6 +90,15 @@ export default function Header() {
                 )}
               </div>
 
+              {/* Wallet / Escrow */}
+              <button 
+                onClick={() => setIsWalletOpen(true)}
+                className="relative p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-full transition-colors"
+                title="Smart Escrow Wallet"
+              >
+                <Wallet className="h-5 w-5" />
+              </button>
+
               {/* Profile Drawer Toggle */}
               <button 
                 onClick={() => setIsProfileOpen(true)}
@@ -101,6 +112,7 @@ export default function Header() {
       </header>
 
       <ProfileDrawer isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+      {isWalletOpen && <EscrowWalletModal onClose={() => setIsWalletOpen(false)} />}
     </>
   );
 }

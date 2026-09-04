@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
 interface AddListingModalProps {
@@ -14,6 +14,18 @@ export default function AddListingModal({ onClose, onSuccess }: AddListingModalP
     quantity: '',
     price: ''
   });
+
+  useEffect(() => {
+    const handleVoiceCommand = (e: any) => {
+      const text = e.detail.toLowerCase();
+      // Simple NLP mock parsing
+      if (text.includes('tomato') || text.includes('தக்காளி') || text.includes('टमाटर')) {
+        setFormData(prev => ({ ...prev, crop: 'Tomato', quantity: '50kg', price: '30' }));
+      }
+    };
+    window.addEventListener('voice-command', handleVoiceCommand);
+    return () => window.removeEventListener('voice-command', handleVoiceCommand);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
