@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/dashboard/Header';
-import MandiTicker from '@/components/dashboard/MandiTicker';
 
 export const metadata: Metadata = {
   title: 'Uzhavan Bazaar | Farmer Dashboard',
@@ -16,11 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen bg-gray-50 flex flex-col">
-        <Header />
-        <main className="flex-grow pb-14">{/* pb-14 to account for sticky ticker */}
+        <main className="flex-grow">
           {children}
         </main>
-        <MandiTicker />
       </body>
     </html>
   );
