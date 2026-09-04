@@ -60,8 +60,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
-  if (!isMounted) return <>{children}</>;
-
   return (
     <AppContext.Provider value={{ language, setLanguage, user, setUser, logout }}>
       {children}
